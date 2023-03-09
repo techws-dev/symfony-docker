@@ -18,6 +18,9 @@ RUN wget https://getcomposer.org/installer -O - | php -- --install-dir=/usr/loca
 ADD php.ini /usr/local/etc/php/php.ini
 ADD php-fpm.conf /usr/local/etc/php-fpm.conf
 
+COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
 WORKDIR /var/www/app
 
 # Map www-data to OS user
@@ -28,4 +31,5 @@ RUN if [ ${USER_ID:-0} -ne 0 ] && [ ${GROUP_ID:-0} -ne 0 ]; then \
 
 EXPOSE 9000
 
+ENTRYPOINT [ "docker-entrypoint" ]
 CMD ["php-fpm", "-F", "-R"]

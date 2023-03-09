@@ -13,6 +13,8 @@ services:
     build: './docker/nginx'
     ports: ['80:80']
     volumes: ['./app/:/var/www/app:cached']
+    depends_on:
+      - php
   mongo:
     image: mongo
     environment:
